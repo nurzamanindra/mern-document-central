@@ -16,7 +16,7 @@ COMING SOON !!!
 ---
 
 ## 🛠️ Technologies Used
-
+## Frontend:
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [React Router](https://reactrouter.com/)
@@ -29,7 +29,16 @@ COMING SOON !!!
 - [react-hook-form](https://react-hook-form.com/)
 - [Axios](https://axios-http.com/)
 - [React Query *(Planned)*](https://tanstack.com/query/latest/docs/framework/react/overview)
+- [Flowbite UI](https://flowbite-react.com/docs/guides/vite#3-install-flowbite-react)
+- [React Icon](https://react-icons.github.io/react-icons/)
 
+## Backend:
+- **Node.js**
+- **Express**
+- **Mongoose**
+- **MongoDB**
+- **dotenv**
+- **nodemon** (for development)
 ---
 
 ## 🚀 Getting Started
