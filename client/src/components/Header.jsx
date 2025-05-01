@@ -6,10 +6,6 @@ import { FaMoon } from "react-icons/fa";
 
 import logo from '../assets/images/logo-chatgpt-light-mode.png'
 
-const activeNavbar = {
-    "on": "bg-cyan-300 text-white md:bg-cyan-300  md:bg-cyan-300  dark:text-white",
-    "off": "border-b border-gray-100 text-gray-700 hover:bg-gray-50 md:border-0 md:hover:bg-transparent md:hover:text-primary-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:dark:hover:text-white"
-  }
 const Header = () => {
   const {pathname} = useLocation();
 
@@ -37,7 +33,7 @@ const Header = () => {
                     <FaMoon/>
                 </Button>
                 <Link to="/sign-in">
-                    <Button className='rounded-full hidden sm:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
+                    <Button className='rounded-full hidden md:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
                         Sign In
                     </Button>
                 </Link>
@@ -50,7 +46,7 @@ const Header = () => {
         <NavbarLink as={Link} to="/" active={pathname==="/"} >Home</NavbarLink>
         <NavbarLink as={Link} to="/about"  active={pathname==="/about"} >About</NavbarLink>
         <NavbarLink as={Link} to="/projects" active={pathname==="/projects"} >Project</NavbarLink>
-        <NavbarLink as={Link} to="/sign-up" className='mt-4 hover:bg-blue-500 rounded-md hover:scale-95 duration-150 bg-blue-500 text-white md:hidden' >Sign Up</NavbarLink>
+        <NavbarLink as={Link} to="/sign-in" className='mt-4 hover:bg-blue-500 rounded-md hover:scale-95 duration-150 bg-blue-500 text-white md:hidden' >Sign In</NavbarLink>
         </div>
       </NavbarCollapse>
       
