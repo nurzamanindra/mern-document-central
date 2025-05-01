@@ -9,7 +9,7 @@ const logger = require('./middleware/logger')
 const bootcamps = require('./routes/bootcamps');
 
 // Load env vars
-dotenv.config({ path: '../config.env' });
+dotenv.config({ path: './api/config/config.env' });
 
 const app = express();
 
