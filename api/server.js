@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 // app.use('/api/v1/bootcamps', bootcamps);
-app.use('/api/v1/test', userRoutes);
+app.use('/api/v1/auth', userRoutes);
 
 //Mount errorHandler Middleware
 app.use(errorHandler);

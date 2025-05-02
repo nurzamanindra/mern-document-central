@@ -32,9 +32,9 @@ const Header = () => {
                 <Button className='rounded-full  sm:inline' color="light">
                     <FaMoon/>
                 </Button>
-                <Link to="/sign-in">
+                <Link to="/sign-up">
                     <Button className='rounded-full hidden md:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
-                        Sign In
+                        Sign Up
                     </Button>
                 </Link>
             </div>
@@ -46,7 +46,7 @@ const Header = () => {
         <NavbarLink as={Link} to="/" active={pathname==="/"} >Home</NavbarLink>
         <NavbarLink as={Link} to="/about"  active={pathname==="/about"} >About</NavbarLink>
         <NavbarLink as={Link} to="/projects" active={pathname==="/projects"} >Project</NavbarLink>
-        <NavbarLink as={Link} to="/sign-in" className='mt-4 hover:bg-blue-500 rounded-md hover:scale-95 duration-150 bg-blue-500 text-white md:hidden' >Sign In</NavbarLink>
+        <NavbarLink as={Link} to="/sign-up" className='mt-4 hover:bg-blue-500 rounded-md hover:scale-95 duration-150 bg-blue-500 text-white md:hidden' >Sign Up</NavbarLink>
         </div>
       </NavbarCollapse>
       

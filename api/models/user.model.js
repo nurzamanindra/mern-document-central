@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
- 
+const bcrypt = require('bcrypt');
+
+
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -25,5 +27,11 @@ const UserSchema = new mongoose.Schema({
     currentTime: () => new Date(new Date().getTime() + (7 * 60 * 60 * 1000)), // UTC+7
   }
 });
+
+UserSchema.pre('save', async function(next){
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  
+})
 
  module.exports = mongoose.model('User', UserSchema);
