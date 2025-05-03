@@ -11,7 +11,15 @@
 
 ## 🎞️ Live Preview (GIF)
 
-COMING SOON !!!
+### 🏠 Home Page  
+![Home Page](./_preview/HomePageHeader.gif)
+<br>
+### 🛍️ Signup Page  
+![SignUp Page](./_preview/SignupPage.gif)
+<br>
+<br>
+### MORE COMING SOON !!!
+<br>
 
 ---
 
@@ -38,6 +46,7 @@ COMING SOON !!!
 - **Mongoose**
 - **MongoDB**
 - **dotenv**
+- **bcrypt**
 - **nodemon** (for development)
 ---
 

@@ -6,10 +6,6 @@ import { FaMoon } from "react-icons/fa";
 
 import logo from '../assets/images/logo-chatgpt-light-mode.png'
 
-const activeNavbar = {
-    "on": "bg-cyan-300 text-white md:bg-cyan-300  md:bg-cyan-300  dark:text-white",
-    "off": "border-b border-gray-100 text-gray-700 hover:bg-gray-50 md:border-0 md:hover:bg-transparent md:hover:text-primary-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:dark:hover:text-white"
-  }
 const Header = () => {
   const {pathname} = useLocation();
 
@@ -36,9 +32,9 @@ const Header = () => {
                 <Button className='rounded-full  sm:inline' color="light">
                     <FaMoon/>
                 </Button>
-                <Link to="/sign-in">
-                    <Button className='rounded-full hidden sm:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
-                        Sign In
+                <Link to="/sign-up">
+                    <Button className='rounded-full hidden md:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
+                        Sign Up
                     </Button>
                 </Link>
             </div>
