@@ -16,15 +16,7 @@ exports.signup = asyncHandler( async(req, res, next) => {
     password
   });
 
-  //create jwt token
-  const token = user.getSignedJwtToken();
-
-  res
-  .status(200)
-  .json({
-    success: true,
-    token
-  })
+  sendTokenResponse(user, 200, res);
 }
 );
 
@@ -34,7 +26,7 @@ exports.signup = asyncHandler( async(req, res, next) => {
 // @access    Public
 exports.signin = asyncHandler(async (req, res, next) =>{
   const {email, password} = req.body;
-
+  console.log(req.cookies.access_token)
   //validate email and password
   if(!email || !password) {
     return next(new ErrorResponse("Please provide an email and password", 400));
@@ -53,17 +45,30 @@ exports.signin = asyncHandler(async (req, res, next) =>{
     return next(new ErrorResponse("Invalid Credentials", 401))
   }
 
-   //create token
-   const token = user.getSignedJwtToken();
+  sendTokenResponse(user, 200, res);
 
-   res
-    .status(200)
-      .json({
-        success: true,
-        token
-      })
+ }
+)
+
+
+//send jwt token auth to cookie response
+const sendTokenResponse = (user, statusCode, res) => {
+
+  const token  = user.getSignedJwtToken();
+
+  const options = {
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+    httpOnly: true
+  };
+
+  if(process.env.NODE_ENV === 'production') {
+    options.secure = true;
+  }
+
+  res.status(statusCode)
+    .cookie('access_token', token, options)
+    .json({
+      success: true
+    })
 
 }
-
-
-)

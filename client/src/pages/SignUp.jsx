@@ -74,7 +74,7 @@ const SignUp = () => {
         {/* signup form container */}
         <div className='border-gray-400 shadow-2xl 
         rounded-xl flex flex-col gap-y-5 
-        mx-auto p-0 py-14 md:px-10 justify-center items-center hover:scale-[1.05] duration-500 '>
+        mx-auto p-0 py-14 md:px-10 justify-center items-center hover:scale-[1.01] duration-200 '>
           {/* left side */}
           <LeftSignupComponent/>
 
