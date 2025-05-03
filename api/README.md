@@ -34,8 +34,12 @@ Create a file at:
 With the following content:
 
 ```env
-PORT=5000
+PORT=3000
 NODE_ENV=development
+
+MONGO_URI = mongodb://localhost:27017/<db name>
+JWT_SECRET=ldsfjldskfjdslfjlsdfkjdsl
+JWT_EXPIRE=20d
 ```
 
 ---
