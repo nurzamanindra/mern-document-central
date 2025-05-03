@@ -70,11 +70,11 @@ const SignUp = () => {
     }
   }
   return (
-    <div className='min-h-screen mt-7 p-20 md:container md:mx-auto md:max-w-screen-md'>
+    <div className='min-h-10/12 mt-7 p-20  md:container md:mx-auto md:max-w-screen-md'>
         {/* signup form container */}
         <div className='border-gray-400 shadow-2xl 
         rounded-xl flex flex-col gap-y-5 
-        mx-auto p-0 py-14 md:px-10 justify-center items-center hover:scale-[1.05] duration-500'>
+        mx-auto p-0 py-14 md:px-10 justify-center items-center hover:scale-[1.01] duration-200 '>
           {/* left side */}
           <LeftSignupComponent/>
 

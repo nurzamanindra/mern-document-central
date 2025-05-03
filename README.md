@@ -52,9 +52,50 @@
 
 ## 🚀 Getting Started
 
+### 📄 Configuration
+## Backend:
+Create a file at:
+
+```
+./api/config/config.env
+```
+
+With the following content:
+
+```env
+PORT=3000
+NODE_ENV=development
+
+MONGO_URI = mongodb://localhost:27017/<db name>
+JWT_SECRET=ldsfjldskfjdslfjlsdfkjdsl
+JWT_EXPIRE=20d
+JWT_COOKIE_EXPIRE=20
+```
+
+## Frontend:
+Create a file at:
+
+```
+./client/.env.development
+```
+
+With the following content:
+
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+VITE_API_TOKEN_NAME=token
+```
+
+## Run Command:
+
 ```bash
 # Install dependencies
 npm install
 
-# Run development server
+# Run development server for backend
+# Inside root folder
+npm run dev
+
+# Run development server for frontend
+# Inside folder /client
 npm run dev

@@ -17,7 +17,7 @@ const Header = () => {
             Central Doc
         </span>
       </NavbarBrand>
-      <form className='hidden md:inline md:w-2/12 lg:w-5/12'>
+      <form className='hidden md:inline md:w-2/12 xl:inline xl:w-6/12'>
         <TextInput
             type='text'
             placeholder='Search...'
@@ -32,17 +32,24 @@ const Header = () => {
                 <Button className='rounded-full  sm:inline' color="light">
                     <FaMoon/>
                 </Button>
+                <Link to="/sign-in">
+                    <Button className='rounded-full focus:outline-non hover:text-black' color="alternative">
+                        Sign In
+                    </Button>
+                </Link>
                 <Link to="/sign-up">
-                    <Button className='rounded-full hidden md:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
+                    <Button className='rounded-full hidden  md:inline bg-blue-500 border-none focus:outline-non hover:scale-95 hover:bg-blue-500 duration-200'>
                         Sign Up
                     </Button>
                 </Link>
             </div>
 
-            <NavbarToggle />
+            <NavbarToggle 
+            // className='sm:inline md:inline xl:hidden'
+            />
         </div>
       <NavbarCollapse >
-        <div className='flex flex-col md:flex-row lg:gap-12 md:gap-10 text-center'>
+        <div className='flex flex-col md:flex-row md:gap-5 lg:gap-5  text-center'>
         <NavbarLink as={Link} to="/" active={pathname==="/"} >Home</NavbarLink>
         <NavbarLink as={Link} to="/about"  active={pathname==="/about"} >About</NavbarLink>
         <NavbarLink as={Link} to="/projects" active={pathname==="/projects"} >Project</NavbarLink>

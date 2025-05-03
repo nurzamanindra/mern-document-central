@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser');
 
 const connectDB = require('./config/db');
 
@@ -19,10 +19,16 @@ dotenv.config({ path: './api/config/config.env' });
 connectDB();
 
 const app = express();
-app.use(cors()); // allow all origins
+app.use(cors({
+  origin: 'http://localhost:5173', // Ganti sesuai frontend kamu
+  credentials: true
+})); // allow all origins
 
 // Body parser
 app.use(express.json());
+
+//cookie parser
+app.use(cookieParser());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
