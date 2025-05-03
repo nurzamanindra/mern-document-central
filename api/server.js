@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
+const cors = require('cors');
 
 
 const connectDB = require('./config/db');
@@ -18,6 +19,7 @@ dotenv.config({ path: './api/config/config.env' });
 connectDB();
 
 const app = express();
+app.use(cors()); // allow all origins
 
 // Body parser
 app.use(express.json());
