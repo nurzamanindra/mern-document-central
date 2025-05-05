@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+const _ = require('lodash');
 
 // @desc      Register user
 // @route     POST /api/v1/auth/signup
@@ -26,6 +27,7 @@ exports.signup = asyncHandler( async(req, res, next) => {
 // @access    Public
 exports.signin = asyncHandler(async (req, res, next) =>{
   const {email, password} = req.body;
+
   console.log(req.cookies.access_token)
   //validate email and password
   if(!email || !password) {
@@ -65,10 +67,13 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
+  const {password: pass, ...rest} = user._doc;
+
   res.status(statusCode)
     .cookie('access_token', token, options)
     .json({
-      success: true
+      success: true,
+      user: rest
     })
 
 }
