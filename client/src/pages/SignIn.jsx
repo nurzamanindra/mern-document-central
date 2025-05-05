@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signin } from '../services/userService';
 import { useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux';
-import {signinStart, signinSuccess, signinFailure} from '../redux/user/userSlicer'
+import {signinStart, signinSuccess, signinFailure} from '../redux/user/userSlice'
 import {selectUser} from '../redux/store'
 
 const schema = z.object({
