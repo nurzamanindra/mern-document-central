@@ -7,7 +7,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signin } from '../services/userService';
-import { useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux';
 import {signinStart, signinSuccess, signinFailure} from '../redux/user/userSlice'
 import {selectUser} from '../redux/store'
@@ -41,10 +40,10 @@ const LeftSignupComponent = ()=> {
 const SignIn = () => {
   const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)});
  
-  const {loading: isLoading, error: formError} = useSelector(selectUser);
+  const {loading: isLoading, error: formError, currentUser: user} = useSelector(selectUser);
   const dispatch = useDispatch();
-
-const navigate = useNavigate();
+  
+  const navigate = useNavigate();
 
   const onSubmitForm = async (formData) => {
     try {
