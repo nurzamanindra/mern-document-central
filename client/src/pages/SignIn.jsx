@@ -1,14 +1,16 @@
 import React from 'react'
 
 import logo from '../assets/images/logo-chatgpt-light-mode.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button, Label, TextInput, HelperText, Spinner } from "flowbite-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signin } from '../services/userService';
 import { useState } from 'react'
-
+import {useDispatch, useSelector} from 'react-redux';
+import {signinStart, signinSuccess, signinFailure} from '../redux/user/userSlicer'
+import {selectUser} from '../redux/store'
 
 const schema = z.object({
   email: z.string().email().min(3),
@@ -38,28 +40,37 @@ const LeftSignupComponent = ()=> {
 
 const SignIn = () => {
   const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)});
-  const [isLoading, setIsLoading] = useState(false);
-  const [formError, setFormError] = useState("");
+ 
+  const {loading: isLoading, error: formError} = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+const navigate = useNavigate();
 
   const onSubmitForm = async (formData) => {
     try {
-      setIsLoading(true);
+      dispatch(signinStart());
       const data = await signin(formData);
-      setIsLoading(false);
 
       if(data && data.success === true){
-        window.location="/";
+
+        dispatch(signinSuccess(data));
+
+        navigate("/");
+      } else {
+        dispatch(signinFailure(data.message))
       }
 
     } catch (err) {
-
+      let errMessage;
+      console.log(err)
       if(err.response){
-        setFormError(err.response.data.message);
-
-      } else if(err){
-        setFormError(err.message);
+        // setFormError(err.response.data.message);
+        errMessage = err.response.data.message;
+      } else {
+        // setFormError(err.message);
+        errMessage = err.message;
       }
-      setIsLoading(false);
+      dispatch(signinFailure(errMessage));
 
     }
   }
