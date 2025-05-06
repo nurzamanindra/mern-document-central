@@ -10,7 +10,7 @@ const connectDB = require('./config/db');
 
 // Route files
 // const bootcamps = require('./routes/bootcamps');
-const userRoutes = require('./routes/user.route');
+const authRoutes = require('./routes/auth.route');
 
 // Load env vars
 dotenv.config({ path: './api/config/config.env' });
@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 // app.use('/api/v1/bootcamps', bootcamps);
-app.use('/api/v1/auth', userRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 //Mount errorHandler Middleware
 app.use(errorHandler);

@@ -2,6 +2,9 @@ const User = require('../models/user.model');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const _ = require('lodash');
+const { getAuth } = require('firebase-admin/auth');
+const bcrypt = require('bcrypt');
+const {app} = require('../utils/firebase');
 
 // @desc      Register user
 // @route     POST /api/v1/auth/signup
@@ -48,6 +51,46 @@ exports.signin = asyncHandler(async (req, res, next) =>{
   }
 
   sendTokenResponse(user, 200, res);
+
+ }
+)
+
+// @desc      Register user
+// @route     POST /api/v1/auth/google
+// @access    Public
+exports.google = asyncHandler(async (req, res, next) =>{
+
+  // idToken comes from the client app
+  // {accessToken: accessToken }
+  const decodedToken = await getAuth(app).verifyIdToken(req.body.accessToken)
+
+  //dari decodedToken - ambil email, name, picture
+  const {email, name, picture} = decodedToken;
+
+  //check if email already exist
+  const user = await User.findOne({email});
+
+  //if user exist, process login and send token to response
+  if(user) {
+    sendTokenResponse(user, 200, res);
+
+  } else {
+    //register new user
+    //create user
+    const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+    const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+
+    const generatedUsername = name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4);
+
+    const user = await User.create({
+        username : generatedUsername, 
+        email, 
+        password: hashedPassword,
+        profilePicture: picture
+    });
+    
+    sendTokenResponse(user, 200, res);
+  }
 
  }
 )

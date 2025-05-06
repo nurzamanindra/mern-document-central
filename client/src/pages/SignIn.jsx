@@ -8,8 +8,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signin } from '../services/userService';
 import {useDispatch, useSelector} from 'react-redux';
-import {signinStart, signinSuccess, signinFailure} from '../redux/user/userSlice'
+import {signStart, signSuccess, signFailure} from '../redux/user/userSlice'
 import {selectUser} from '../redux/store'
+import OAuth from '../components/OAuth';
 
 const schema = z.object({
   email: z.string().email().min(3),
@@ -47,16 +48,16 @@ const SignIn = () => {
 
   const onSubmitForm = async (formData) => {
     try {
-      dispatch(signinStart());
-      const data = await signin(formData);
+      dispatch(start());
+      const data = await signStart(formData);
 
       if(data && data.success === true){
 
-        dispatch(signinSuccess(data));
+        dispatch(signSuccess(data));
 
         navigate("/");
       } else {
-        dispatch(signinFailure(data.message))
+        dispatch(signFailure(data.message))
       }
 
     } catch (err) {
@@ -69,7 +70,7 @@ const SignIn = () => {
         // setFormError(err.message);
         errMessage = err.message;
       }
-      dispatch(signinFailure(errMessage));
+      dispatch(signFailure(errMessage));
 
     }
   }
@@ -109,6 +110,8 @@ const SignIn = () => {
              </> : 'Sign In'
             }
             </Button>
+            <OAuth text="Continue with Google"/>
+            
             {formError && <HelperText color='failure'> {formError}</HelperText>}
 
             <div className="flex items-center gap-2">

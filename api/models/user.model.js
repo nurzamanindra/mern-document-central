@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     minlength: [6, 'password length min 6 character'],
     select: false
   },
+  profilePicture: {
+    type: String,
+    require: false
+  },
  }, {
   timestamps: {
     currentTime: () => new Date(new Date().getTime() + (7 * 60 * 60 * 1000)), // UTC+7

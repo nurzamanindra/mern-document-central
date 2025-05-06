@@ -7,20 +7,26 @@ const initialState = {
     loading : false
 }
 
-const signinStartFunction = (state, action) => {
+const startFunction = (state, action) => {
     state.loading = true;
     state.error = null;
 }
 
-const signinSuccessFunction = (state, action) => {
+const successFunction = (state, action) => {
     state.currentUser = action.payload;
     state.loading = false;
     state.error = null;
 }
 
-const signinFailureFunction = (state, action) => {
+const failureFunction = (state, action) => {
     state.loading = false;
     state.error = action.payload;
+}
+
+const logoutFunction = (state, action) => {
+    state.loading = false;
+    state.error = null;
+    state.currentUser = null;
 }
 
 export const userSlice = createSlice(
@@ -28,13 +34,14 @@ export const userSlice = createSlice(
         name: "user",
         initialState,
         reducers: {
-            signinStart: signinStartFunction,
-            signinSuccess: signinSuccessFunction,
-            signinFailure: signinFailureFunction
+            signStart: startFunction,
+            signSuccess: successFunction,
+            signFailure: failureFunction,
+            logout : logoutFunction
         }
     }
 )
 
-export const {signinStart, signinSuccess, signinFailure} = userSlice.actions;
+export const {signStart, signSuccess, signFailure, logout} = userSlice.actions;
 
 export default userSlice.reducer;

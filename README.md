@@ -17,7 +17,11 @@
 ### 🛍️ Signup Page  
 ![SignUp Page](./_preview/SignupPage.gif)
 <br>
+### 🛍️ Google Auth  
+![Google Auth](./_preview/GoogleAuth.gif)
 <br>
+
+
 ### MORE COMING SOON !!!
 <br>
 
@@ -28,7 +32,8 @@
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [React Router](https://reactrouter.com/)
-- [Tailwind CSS](https://tailwindcss.com/)  
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)  
 - HTML
 - JavaScript
 - LocalStorage
@@ -70,6 +75,9 @@ MONGO_URI = mongodb://localhost:27017/<db name>
 JWT_SECRET=ldsfjldskfjdslfjlsdfkjdsl
 JWT_EXPIRE=20d
 JWT_COOKIE_EXPIRE=20
+
+FIREBASE_PROJECT_ID=
+
 ```
 
 ## Frontend:
@@ -84,6 +92,8 @@ With the following content:
 ```env
 VITE_API_URL=http://localhost:3000/api/v1
 VITE_API_TOKEN_NAME=token
+VITE_FIREBASE_API_KEY=
+
 ```
 
 ## Run Command:

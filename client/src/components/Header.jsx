@@ -1,13 +1,38 @@
 import React from 'react'
 import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from "flowbite-react";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
 
 import logo from '../assets/images/logo-chatgpt-light-mode.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from '../redux/store';
+import { logout } from '../redux/user/userSlice';
+import { getAuth, signOut } from "firebase/auth";
+import {app} from '../firebase';
+import AvatarComp from './AvatarComp';
 
 const Header = () => {
   const {pathname} = useLocation();
+
+  const {currentUser : user} = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    const auth = getAuth(app);
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(logout());
+      navigate("/");
+
+    }).catch((error) => {
+      // An error happened.
+      console.log(error);
+    });
+ 
+    //TODO: signout from google 
+  }
 
   return (
     <Navbar fluid className='border-b-2'>
@@ -32,6 +57,8 @@ const Header = () => {
                 <Button className='rounded-full  sm:inline' color="light">
                     <FaMoon/>
                 </Button>
+                {!user ?
+                  <>
                 <Link to="/sign-in">
                     <Button className='rounded-full focus:outline-non hover:text-black' color="alternative">
                         Sign In
@@ -42,8 +69,10 @@ const Header = () => {
                         Sign Up
                     </Button>
                 </Link>
+                </> :
+                 <AvatarComp user={user.user} handleLogout={handleLogout}/>
+                }
             </div>
-
             <NavbarToggle 
             // className='sm:inline md:inline xl:hidden'
             />
@@ -53,7 +82,7 @@ const Header = () => {
         <NavbarLink as={Link} to="/" active={pathname==="/"} >Home</NavbarLink>
         <NavbarLink as={Link} to="/about"  active={pathname==="/about"} >About</NavbarLink>
         <NavbarLink as={Link} to="/projects" active={pathname==="/projects"} >Project</NavbarLink>
-        <NavbarLink as={Link} to="/sign-up" className='mt-4 hover:bg-blue-500 rounded-md hover:scale-95 duration-150 bg-blue-500 text-white md:hidden' >Sign Up</NavbarLink>
+        {!user && <NavbarLink as={Link} to="/sign-up" className='mt-4 hover:bg-blue-500 rounded-md hover:scale-95 duration-150 bg-blue-500 text-white md:hidden' >Sign Up</NavbarLink>}
         </div>
       </NavbarCollapse>
       

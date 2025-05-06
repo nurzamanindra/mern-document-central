@@ -40,6 +40,8 @@ NODE_ENV=development
 MONGO_URI = mongodb://localhost:27017/<db name>
 JWT_SECRET=ldsfjldskfjdslfjlsdfkjdsl
 JWT_EXPIRE=20d
+
+FIREBASE_PROJECT_ID=
 ```
 
 ---
