@@ -9,3 +9,9 @@ export async function signin(user) {
     const {data} = await apiClient.post("/auth/signin", user);
     return data
 }
+
+
+export async function continueWithGoogle(accessToken){
+    const {data} = await apiClient.post("/auth/google", {accessToken});
+    return data;
+}

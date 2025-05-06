@@ -17,7 +17,11 @@
 ### 🛍️ Signup Page  
 ![SignUp Page](./_preview/SignupPage.gif)
 <br>
+### 🛍️ Google Auth  
+![Google Auth](./_preview/GoogleAuth.gif)
 <br>
+
+
 ### MORE COMING SOON !!!
 <br>
 
@@ -28,7 +32,8 @@
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [React Router](https://reactrouter.com/)
-- [Tailwind CSS](https://tailwindcss.com/)  
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)  
 - HTML
 - JavaScript
 - LocalStorage

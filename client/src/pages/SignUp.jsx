@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 
 import logo from '../assets/images/logo-chatgpt-light-mode.png'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button, Label, TextInput, HelperText, Spinner } from "flowbite-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signup } from '../services/userService';
+import OAuth from '../components/OAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from '../redux/store';
+import {signStart, signSuccess, signFailure} from '../redux/user/userSlice'
 
 
 const schema = z.object({
@@ -44,29 +48,35 @@ const LeftSignupComponent = ()=> {
 
 const SignUp = () => {
   const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)});
-  const [isLoading, setIsLoading] = useState(false);
-  const [formError, setFormError] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [formError, setFormError] = useState("");
+  const {loading: isLoading, error: formError, currentUser : user} = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmitForm = async (formData) => {
     try {
-      setIsLoading(true);
+      dispatch(signStart());
       const data = await signup(formData);
-      setIsLoading(false);
+      dispatch(signSuccess(data));
 
       if(data && data.success === true){
-        window.location="/";
+        navigate("/")
       }
 
     } catch (err) {
+        let errMessage;
+        console.log(err);
 
-      if(err.response){
-        setFormError(err.response.data.message);
-
-      } else if(err){
-        setFormError(err.message);
-      }
-      setIsLoading(false);
-
+        if(err.response){
+          // setFormError(err.response.data.message);
+          errMessage = err.response.data.message;
+        } else {
+          // setFormError(err.message);
+          errMessage = err.message;
+        }
+        dispatch(signFailure(errMessage));
+  
     }
   }
   return (
@@ -120,6 +130,8 @@ const SignUp = () => {
              </> : 'Register new account'
             }
             </Button>
+            <OAuth text="Continue with Google"/>
+
             {formError && <HelperText color='failure'> {formError}</HelperText>}
 
             <div className="flex items-center gap-2">
