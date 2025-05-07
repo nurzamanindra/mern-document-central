@@ -17,8 +17,11 @@
 ### 🛍️ Signup Page  
 ![SignUp Page](./_preview/SignupPage.gif)
 <br>
-### 🛍️ Google Auth  
+### 🔐 Google Auth  
 ![Google Auth](./_preview/GoogleAuth.gif)
+<br>
+### 🌙 Dark Mode 
+![Dark Mode](./_preview/DarkMode.gif)
 <br>
 
 

@@ -2,12 +2,13 @@ import React from 'react'
 import { Button, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, TextInput } from "flowbite-react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 import logo from '../assets/images/logo-chatgpt-light-mode.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../redux/store';
+import { selectUser, selectTheme } from '../redux/store';
 import { logout } from '../redux/user/userSlice';
+import { toggleTheme } from '../redux/theme/themeSlice';
 import { getAuth, signOut } from "firebase/auth";
 import {app} from '../firebase';
 import AvatarComp from './AvatarComp';
@@ -18,6 +19,8 @@ const Header = () => {
   const {currentUser : user} = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {theme} = useSelector(selectTheme);
 
   const handleLogout = () => {
     const auth = getAuth(app);
@@ -54,8 +57,8 @@ const Header = () => {
        </Button>
       <div className='flex flex-row justify-center items-center gap-2  md:order-3'>
             <div className='flex items-center gap-2'>
-                <Button className='rounded-full  sm:inline' color="light">
-                    <FaMoon/>
+                <Button className='rounded-full  sm:inline' color="light" onClick={()=> dispatch(toggleTheme())}>
+                    {theme === 'light' ? <FaSun/> :<FaMoon/>}
                 </Button>
                 {!user ?
                   <>
