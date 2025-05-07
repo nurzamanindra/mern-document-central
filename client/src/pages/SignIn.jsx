@@ -49,7 +49,7 @@ const SignIn = () => {
   const onSubmitForm = async (formData) => {
     try {
       dispatch(start());
-      const data = await signStart(formData);
+      const data = await signin(formData);
 
       if(data && data.success === true){
 
