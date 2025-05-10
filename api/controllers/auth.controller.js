@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-const ErrorResponse = require('../utils/errorResponse');
+const ErrorResponse = require('../utils/ErrorResponse');
 const asyncHandler = require('../middleware/async');
 const _ = require('lodash');
 const { getAuth } = require('firebase-admin/auth');
@@ -94,6 +94,19 @@ exports.google = asyncHandler(async (req, res, next) =>{
 
  }
 )
+
+exports.getMe = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  
+  if(!user) {
+    return next(new ErrorResponse("User not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+})
 
 
 //send jwt token auth to cookie response
