@@ -10,7 +10,7 @@ const Dashboard = () => {
   const tab = search.get('tab') || '';
 
   useEffect(() => {
-    console.log(tab);
+
   }, [search]);
 
 
