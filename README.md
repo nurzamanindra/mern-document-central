@@ -11,22 +11,24 @@
 
 ## 🎞️ Live Preview (GIF)
 
-### 🏠 Home Page  
+### ✅ Home Page  
 ![Home Page](./_preview/HomePageHeader.gif)
 <br>
-### 🛍️ Signup Page  
+### ✅ Signup Page  
 ![SignUp Page](./_preview/SignupPage.gif)
 <br>
-### 🔐 Google Auth  
+### ✅ Google Auth  
 ![Google Auth](./_preview/GoogleAuth.gif)
 <br>
-### 🌙 Dark Mode 
+### ✅ Dark Mode 
 ![Dark Mode](./_preview/DarkMode.gif)
 <br>
-### 🌙 User Update Profile 
+### ✅ User Update Profile 
 ![Update Profile](./_preview/updateProfile.gif)
 <br>
-
+### ✅ Delete User 
+![Delete User](./_preview/DeleteUser.gif)
+<br>
 
 ### MORE COMING SOON !!!
 <br>

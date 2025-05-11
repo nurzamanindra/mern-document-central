@@ -18,7 +18,7 @@ return (
         </SidebarItem>
       </SidebarItemGroup>
       <SidebarItemGroup>
-        <SidebarItem icon={HiArrowSmRight} onClick={handleSignOut}>
+        <SidebarItem className='cursor-pointer' icon={HiArrowSmRight} onClick={handleSignOut}>
           Sign Out
         </SidebarItem>
       </SidebarItemGroup>
@@ -41,7 +41,7 @@ const SidebarItemGroupCollapse = ({tab, handleSignOut}) => {
               </SidebarItem>
             </SidebarItemGroup>
             <SidebarItemGroup>
-              <SidebarItem icon={HiArrowSmRight} onClick={handleSignOut}>
+              <SidebarItem className='cursor-pointer' icon={HiArrowSmRight} onClick={handleSignOut}>
                 Sign Out
               </SidebarItem>
             </SidebarItemGroup>
