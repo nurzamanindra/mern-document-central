@@ -60,7 +60,7 @@ const Header = () => {
                 <Button className='rounded-full  sm:inline' color="light" onClick={()=> dispatch(toggleTheme())}>
                     {theme === 'light' ? <FaSun/> :<FaMoon/>}
                 </Button>
-                {!user ?
+                {user == null ?
                   <>
                 <Link to="/sign-in">
                     <Button className='rounded-full focus:outline-non hover:text-black' color="alternative">

@@ -6,15 +6,19 @@ import { z } from "zod";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {app} from '../firebase';
 
-import { updateUserSuccess, updateUserFailure, updateUserStart } from '../redux/user/userSlice';
+import { updateUserSuccess, updateUserFailure, updateUserStart, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { updateUserProfile } from '../services/userService';
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
+
+import { updateUserProfile, deleteUserProfile } from '../services/userService';
 import { toast } from 'react-toastify';
+
+
 const schema = z.object({
   username: z.string().optional(),
   email: z.string().optional(),
@@ -33,11 +37,12 @@ const DashProfile = () => {
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
+  const [openModalConfirmationDelete, setOpenModalConfirmationDelete] = useState(false);
+
+
 
   const filePickerRef = useRef(null);
   const dispatch = useDispatch();
-
-  console.log(currentUser);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -118,7 +123,25 @@ const DashProfile = () => {
       dispatch(updateUserFailure(error.message));
 
     }
+  }
 
+  const handleDeleteUser = async () => {
+    setOpenModalConfirmationDelete(false);
+    console.log('delete user');
+
+    try {
+      dispatch(deleteUserStart());
+      const data = await deleteUserProfile(currentUser.user._id);
+      dispatch(deleteUserSuccess(data));
+      
+      window.location = '/';
+      
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+      dispatch(deleteUserFailure(error.message));
+      
+    }
 
   }
 
@@ -198,11 +221,60 @@ const DashProfile = () => {
 
         {/* Button Submit*/}
         <Button className='w-full md:w-4/12' type='submit'>Update</Button>
-        <Button className='w-full md:w-4/12' color="red" type='button'>Delete Account</Button>
-
+        <Button onClick={() => setOpenModalConfirmationDelete(true)} className='w-full md:w-4/12' color="red" type='button'>Delete Account</Button>
+        <ModalConfirmationDelete 
+        openModalConfirmationDelete={openModalConfirmationDelete} 
+        setOpenModalConfirmationDelete={setOpenModalConfirmationDelete}
+        email={currentUser.user?.email}
+        handleDeleteUser={handleDeleteUser}/>
       </form>
     </div>
   )
 }
 
 export default DashProfile
+
+
+const ModalConfirmationDelete = ({openModalConfirmationDelete, setOpenModalConfirmationDelete, email, handleDeleteUser}) => {
+  const [emailError, setEmailError] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
+
+
+  const handleEmailInput = (e) => {
+    setEmailInput(e.target.value);
+  }
+
+  const emailConfirmationHandler = () => {
+
+    if(emailInput !== email){
+      //set error
+      setEmailError(true);
+      
+    }else{
+      //delete account
+      setEmailError(false);
+      handleDeleteUser()
+    }
+  }
+  return(
+    <Modal show={openModalConfirmationDelete} size="md" popup onClose={() => setOpenModalConfirmationDelete(false)}>
+        <ModalHeader />
+        <ModalBody>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Delete Confirmation</h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="emailDelete">{`Please type ${email}`}</Label>
+              </div>
+              <TextInput id="emailDelete" placeholder="name@company.com" required onChange={handleEmailInput}/>
+            </div>
+            {emailError && <HelperText color='failure'>Email is not correct</HelperText>}
+
+            <div className="w-full mx-auto flex justify-center">
+              <Button color="red" className='w-full' onClick={emailConfirmationHandler}>Confirm Delete</Button>
+            </div>    
+          </div>
+        </ModalBody>
+      </Modal>
+  )
+} 

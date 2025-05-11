@@ -47,7 +47,12 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse("User not found", 404));
     }
 
-    res.status(200).json({
+    res.status(200)
+    .clearCookie('access_token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+    })
+    .json({
         success: true,
         data: {},
     });

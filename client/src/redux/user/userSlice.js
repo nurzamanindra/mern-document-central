@@ -52,6 +52,23 @@ const updateUserfailureFunction = (state, action) => {
     state.error = action.payload;
 }
 
+const deleteUserStartFunction = (state, action) => {
+    state.loading = true;
+    state.error = null;
+}
+
+const deleteUserSuccessFunction = (state, action) => {
+    state.loading = false;
+    state.error = null;
+    state.currentUser = null;
+}
+
+const deleteUserFailureFunction = (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+}
+
+
 export const userSlice = createSlice(
     {
         name: "user",
@@ -64,10 +81,13 @@ export const userSlice = createSlice(
             updateUserStart: updateUserStartFunction,
             updateUserSuccess: updateUserSuccessFunction,
             updateUserFailure: updateUserfailureFunction,
+            deleteUserStart: deleteUserStartFunction,
+            deleteUserSuccess: deleteUserSuccessFunction,
+            deleteUserFailure: deleteUserFailureFunction
         }
     }
 )
 
-export const {signStart, signSuccess, signFailure, logout, updateUserStart, updateUserSuccess, updateUserFailure} = userSlice.actions;
+export const {signStart, signSuccess, signFailure, logout, updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure} = userSlice.actions;
 
 export default userSlice.reducer;
