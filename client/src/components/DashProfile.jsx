@@ -1,24 +1,43 @@
-import React, { use, useEffect, useRef, useState } from 'react'
-import { Button, Avatar , Label, TextInput, Alert } from "flowbite-react";
-import { useSelector } from 'react-redux';
+import React, {  useEffect, useRef, useState } from 'react'
+import { Button, Avatar , Label, TextInput, Alert, HelperText } from "flowbite-react";
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../redux/store';
-
+import { z } from "zod";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {app} from '../firebase';
 
+import { updateUserSuccess, updateUserFailure, updateUserStart } from '../redux/user/userSlice';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { updateUserProfile } from '../services/userService';
+import { toast } from 'react-toastify';
+const schema = z.object({
+  username: z.string().optional(),
+  email: z.string().optional(),
+  password: z.string().optional(),
+  profilePicture: z.string().optional()
+})
 
 const DashProfile = () => {
+
+  const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)});
+
   const {currentUser} = useSelector(selectUser);
   const [imageFile, setImageFile] = useState(null);
+  const [formError, setFormError] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
 
   const filePickerRef = useRef(null);
+  const dispatch = useDispatch();
+
+  console.log(currentUser);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -37,6 +56,7 @@ const DashProfile = () => {
 
     setImageFileUploading(true);
     setImageFileUploadError(null);
+
 
     uploadTask.on('state_changed', 
       (snapshot) => {
@@ -59,7 +79,7 @@ const DashProfile = () => {
       () => {
         // Handle successful uploads on complete
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
+          // console.log('File available at', downloadURL);
           //save downloadURL to database
           setImageFileUrl(downloadURL);
           setImageFileUploading(false);
@@ -75,8 +95,32 @@ const DashProfile = () => {
   }, 
   [imageFile]);
 
-  const handleSubmitForm = (e) => {
-    e.preventDefault();
+  const handleSubmitForm = async (formData) => {
+    //check if imageFileUrl is not null
+    setFormError(null);
+    dispatch(updateUserStart());
+    try {
+      if(imageFileUrl){
+        formData.profilePicture = imageFileUrl;
+      }
+      //update user profile
+      const data = await updateUserProfile(currentUser.user._id, formData);
+      console.log(data);
+      toast.success("Profile updated successfully");
+
+      //update user in redux store
+      dispatch(updateUserSuccess(data));
+      window.location.reload();
+      
+    } catch (error) {
+      console.error(error);
+      setFormError(error.message);
+      toast.error(error.message);
+      dispatch(updateUserFailure(error.message));
+
+    }
+
+
   }
 
 
@@ -84,7 +128,7 @@ const DashProfile = () => {
   return (
     <div className='max-w-full mx-auto p-3 w-full'>
       <h1 className='my-7 text-3xl font-semibold text-center'>Profile</h1>
-      <form className='flex flex-col justify-center items-center gap-8' onSubmit={handleSubmitForm}>
+      <form className='flex flex-col justify-center items-center gap-8' onSubmit={handleSubmit(handleSubmitForm)}>
         
         {/* Image Upload */}
         <input type="file" accept="image/*" ref={filePickerRef} hidden onChange={handleImageChange}/>
@@ -115,7 +159,7 @@ const DashProfile = () => {
             imageFileUploading &&
               'opacity-60'
             }`}
-          img={imageFileUrl || currentUser.user.profilePicture}
+          img={imageFileUrl || currentUser.user?.profilePicture}
           alt="User profile"
           bordered color="gray"
           size="xl" 
@@ -133,7 +177,7 @@ const DashProfile = () => {
           <div className="mb-2 block ">
             <Label htmlFor="username">Username</Label>
           </div>
-          <TextInput id="username" type="text" placeholder="username" defaultValue={currentUser.user.username}/>
+          <TextInput required={false}  {...register("username")} id="username" type="text" placeholder="username" defaultValue={currentUser.user?.username}/>        
         </div>
 
         {/* email */}
@@ -141,7 +185,7 @@ const DashProfile = () => {
           <div className="mb-2 block ">
             <Label htmlFor="email">Email</Label>
           </div>
-          <TextInput id="email" type="text" placeholder="sample@gmail.com" defaultValue={currentUser.user.email}/>
+          <TextInput required={false} {...register("email")} id="email" type="text" placeholder="sample@gmail.com" defaultValue={currentUser.user?.email}/>
         </div>
 
         {/* password */}
@@ -149,8 +193,9 @@ const DashProfile = () => {
           <div className="mb-2 block ">
             <Label htmlFor="password">password</Label>
           </div>
-          <TextInput id="password" type="text" placeholder="**********" />
+          <TextInput required={false}  {...register("password")} id="password" type="text" placeholder="**********" />
         </div>
+        {formError && <HelperText color='failure'> {formError}</HelperText>}
 
         {/* Button Submit*/}
         <Button className='w-full md:w-4/12' type='submit'>Update</Button>

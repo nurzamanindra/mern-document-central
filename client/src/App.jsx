@@ -10,11 +10,16 @@ import Projects from './pages/Projects'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
+import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header/>
+      <ToastContainer
+          position="top-center"
+          closeOnClick
+        />
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/about' element={<About/>}/>
