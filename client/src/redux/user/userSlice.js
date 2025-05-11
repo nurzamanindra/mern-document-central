@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { update } from 'lodash';
 
 
 const initialState = {
@@ -29,6 +30,28 @@ const logoutFunction = (state, action) => {
     state.currentUser = null;
 }
 
+const updateUserStartFunction = (state, action) => {
+    state.loading = true;
+    state.error = null;
+}
+
+const updateUserSuccessFunction = (state, action) => {
+    const {username, email, profilePicture} = action.payload.data
+    state.loading = false;
+    state.error = null;
+    state.currentUser.user = {
+        ...state.currentUser.user,
+        username,
+        email,
+        profilePicture
+    }
+}
+
+const updateUserfailureFunction = (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+}
+
 export const userSlice = createSlice(
     {
         name: "user",
@@ -37,11 +60,14 @@ export const userSlice = createSlice(
             signStart: startFunction,
             signSuccess: successFunction,
             signFailure: failureFunction,
-            logout : logoutFunction
+            logout : logoutFunction,
+            updateUserStart: updateUserStartFunction,
+            updateUserSuccess: updateUserSuccessFunction,
+            updateUserFailure: updateUserfailureFunction,
         }
     }
 )
 
-export const {signStart, signSuccess, signFailure, logout} = userSlice.actions;
+export const {signStart, signSuccess, signFailure, logout, updateUserStart, updateUserSuccess, updateUserFailure} = userSlice.actions;
 
 export default userSlice.reducer;

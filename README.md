@@ -23,6 +23,9 @@
 ### 🌙 Dark Mode 
 ![Dark Mode](./_preview/DarkMode.gif)
 <br>
+### 🌙 User Update Profile 
+![Update Profile](./_preview/updateProfile.gif)
+<br>
 
 
 ### MORE COMING SOON !!!

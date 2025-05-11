@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import {
     Avatar,
@@ -17,14 +17,14 @@ const AvatarComp = ({user, handleLogout}) => {
       arrowIcon={false}
       inline
       label={
-        <Avatar alt="Profile" img={user.profilePicture} rounded referrerPolicy="no-referrer"/>
+        <Avatar alt="Profile" img={user?.profilePicture} rounded referrerPolicy="no-referrer"/>
       }
     >
       <DropdownHeader>
-        <span className="block text-sm">@{user.username}</span>
-        <span className="block truncate text-sm font-medium">{user.email}</span>
+        <span className="block text-sm">@{user?.username}</span>
+        <span className="block truncate text-sm font-medium">{user?.email}</span>
       </DropdownHeader>
-      <DropdownItem as={Link} to="/dashboard">Dashboard</DropdownItem>
+      <DropdownItem as={Link} to="/dashboard?tab=profile">Dashboard</DropdownItem>
       <DropdownDivider />
       <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
     </Dropdown>
