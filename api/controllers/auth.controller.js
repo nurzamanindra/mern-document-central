@@ -55,6 +55,22 @@ exports.signin = asyncHandler(async (req, res, next) =>{
  }
 )
 
+// @desc      Signout User
+// @route     POST /api/v1/auth/signout
+// @access    Private
+exports.signout = asyncHandler(async (req, res, next) => {
+  res.status(200)
+    .clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    })
+    .json({
+      success: true,
+      data: {}
+    });
+}
+)
+
 // @desc      Register user
 // @route     POST /api/v1/auth/google
 // @access    Public
@@ -109,6 +125,8 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 })
 
 
+
+
 //send jwt token auth to cookie response
 const sendTokenResponse = (user, statusCode, res) => {
 
@@ -131,5 +149,4 @@ const sendTokenResponse = (user, statusCode, res) => {
       success: true,
       user: rest
     })
-
 }

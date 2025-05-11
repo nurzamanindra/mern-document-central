@@ -68,6 +68,22 @@ const deleteUserFailureFunction = (state, action) => {
     state.error = action.payload;
 }
 
+const signoutUserStartFunction = (state, action) => {
+    state.loading = true;
+    state.error = null;
+}
+
+const signoutUserSuccessFunction = (state, action) => {
+    state.loading = false;
+    state.error = null;
+    state.currentUser = null;
+}
+
+const signoutUserFailureFunction = (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+}
+
 
 export const userSlice = createSlice(
     {
@@ -83,11 +99,29 @@ export const userSlice = createSlice(
             updateUserFailure: updateUserfailureFunction,
             deleteUserStart: deleteUserStartFunction,
             deleteUserSuccess: deleteUserSuccessFunction,
-            deleteUserFailure: deleteUserFailureFunction
+            deleteUserFailure: deleteUserFailureFunction,
+            signoutUserStart: signoutUserStartFunction,
+            signoutUserSuccess: signoutUserSuccessFunction,
+            signoutUserFailure: signoutUserFailureFunction
         }
     }
 )
 
-export const {signStart, signSuccess, signFailure, logout, updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure} = userSlice.actions;
+export const {
+signStart, 
+signSuccess, 
+signFailure, 
+logout, 
+updateUserStart, 
+updateUserSuccess, 
+updateUserFailure, 
+deleteUserStart, 
+deleteUserSuccess, 
+deleteUserFailure,
+signoutUserStart, 
+signoutUserSuccess, 
+signoutUserFailure,
+
+} = userSlice.actions;
 
 export default userSlice.reducer;
