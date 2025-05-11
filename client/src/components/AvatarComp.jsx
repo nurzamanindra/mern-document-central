@@ -1,4 +1,6 @@
 import React from 'react'
+import {handleSignOut} from '../services/userService';
+import { useDispatch } from 'react-redux';
 
 import {
     Avatar,
@@ -9,7 +11,18 @@ import {
   } from "flowbite-react";
 import { Link } from 'react-router-dom';
 
-const AvatarComp = ({user, handleLogout}) => {
+const AvatarComp = ({user}) => {
+
+  const dispatch = useDispatch();
+
+  const handleSignOutHook = async () => {
+    try {
+      await handleSignOut(dispatch);
+      window.location = '/';
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex md:order-2">
@@ -26,7 +39,7 @@ const AvatarComp = ({user, handleLogout}) => {
       </DropdownHeader>
       <DropdownItem as={Link} to="/dashboard?tab=profile">Dashboard</DropdownItem>
       <DropdownDivider />
-      <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
+      <DropdownItem onClick={handleSignOutHook}>Signout</DropdownItem>
     </Dropdown>
   </div>
   )

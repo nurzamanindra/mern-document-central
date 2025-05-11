@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems, SidebarCollapse } from "flowbite-react";
+import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems, SidebarCollapse, Button } from "flowbite-react";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { handleSignOut } from '../services/userService'
+import { useDispatch } from 'react-redux';  
 
-
-const SidebarItemGroupWeb = ({tab}) => {
+const SidebarItemGroupWeb = ({tab, handleSignOut}) => {
 
 return (
   <>
@@ -17,7 +18,7 @@ return (
         </SidebarItem>
       </SidebarItemGroup>
       <SidebarItemGroup>
-        <SidebarItem as={Link} to='/' icon={HiArrowSmRight}>
+        <SidebarItem className='cursor-pointer' icon={HiArrowSmRight} onClick={handleSignOut}>
           Sign Out
         </SidebarItem>
       </SidebarItemGroup>
@@ -25,9 +26,10 @@ return (
 )
 }
 
-const SidebarItemGroupCollapse = ({tab}) => {
+const SidebarItemGroupCollapse = ({tab, handleSignOut}) => {
+
   return(
-    <>
+    <>  
     <SidebarItemGroup>
           <SidebarCollapse  label="Menu">
             <SidebarItemGroup>
@@ -39,7 +41,7 @@ const SidebarItemGroupCollapse = ({tab}) => {
               </SidebarItem>
             </SidebarItemGroup>
             <SidebarItemGroup>
-              <SidebarItem as={Link} to='/' icon={HiArrowSmRight}>
+              <SidebarItem className='cursor-pointer' icon={HiArrowSmRight} onClick={handleSignOut}>
                 Sign Out
               </SidebarItem>
             </SidebarItemGroup>
@@ -50,17 +52,31 @@ const SidebarItemGroupCollapse = ({tab}) => {
 }
 
 const DashSidebar = ({tab}) => {
+
+  const dispatch = useDispatch();
+
+
+  const handleSignOutHook = async () => {
+    try {
+      await handleSignOut(dispatch);
+      window.location = '/';
+
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  }
+
   return (
     <Sidebar className="w-full">
 
       {/* Web version */}
       <SidebarItems className=' flex-col justify-evenly hidden md:flex'> 
-        <SidebarItemGroupWeb tab={tab}/>
+        <SidebarItemGroupWeb tab={tab} handleSignOut={handleSignOutHook} />
       </SidebarItems>
 
       {/* Mobile version - collapse able  */}
       <SidebarItems className=' flex-col justify-evenly md:hidden flex'> 
-        <SidebarItemGroupCollapse tab={tab}/>
+        <SidebarItemGroupCollapse tab={tab} handleSignOut={handleSignOutHook} />
       </SidebarItems>
 
   </Sidebar>

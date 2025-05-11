@@ -29,6 +29,31 @@ exports.updateUserDetails = asyncHandler(async (req, res, next) => {
         success: true,
         data: user,
     });
-    
+})
 
+// @desc      Delete User details
+// @route     DELETE /api/v1/user/delete/:userId
+// @access    Private
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+
+    //check if req.user.id != req.params.userId
+    if (req.user.id !== req.params.userId) {
+        return next(new ErrorResponse("You are not authorized to delete this user", 401));
+    }
+
+    const user = await User.findByIdAndDelete(req.params.userId);
+
+    if (!user) {
+        return next(new ErrorResponse("User not found", 404));
+    }
+
+    res.status(200)
+    .clearCookie('access_token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+    })
+    .json({
+        success: true,
+        data: {},
+    });
 })

@@ -22,21 +22,6 @@ const Header = () => {
 
   const {theme} = useSelector(selectTheme);
 
-  const handleLogout = () => {
-    const auth = getAuth(app);
-    signOut(auth).then(() => {
-      // Sign-out successful.
-      dispatch(logout());
-      navigate("/");
-
-    }).catch((error) => {
-      // An error happened.
-      console.log(error);
-    });
- 
-    //TODO: signout from google 
-  }
-
   return (
     <Navbar fluid className='border-b-2'>
       <NavbarBrand as={Link} to="/">
@@ -60,7 +45,7 @@ const Header = () => {
                 <Button className='rounded-full  sm:inline' color="light" onClick={()=> dispatch(toggleTheme())}>
                     {theme === 'light' ? <FaSun/> :<FaMoon/>}
                 </Button>
-                {!user ?
+                {user == null ?
                   <>
                 <Link to="/sign-in">
                     <Button className='rounded-full focus:outline-non hover:text-black' color="alternative">
@@ -73,7 +58,7 @@ const Header = () => {
                     </Button>
                 </Link>
                 </> :
-                 <AvatarComp user={user.user} handleLogout={handleLogout}/>
+                 <AvatarComp user={user.user} />
                 }
             </div>
             <NavbarToggle 
