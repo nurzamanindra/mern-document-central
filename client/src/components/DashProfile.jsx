@@ -110,7 +110,6 @@ const DashProfile = () => {
 
       //update user in redux store
       dispatch(updateUserSuccess(data));
-      window.location.reload();
       
     } catch (error) {
       console.error(error);
