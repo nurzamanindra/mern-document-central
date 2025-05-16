@@ -1,6 +1,7 @@
 const asyncHandler = require("../middleware/async");
 const User = require("../models/user.model");
 const ErrorResponse = require("../utils/ErrorResponse");
+const bcrypt = require("bcrypt");
 
 // @desc      Update User details
 // @route     PUT /api/v1/user/update/:userId
@@ -17,7 +18,11 @@ exports.updateUserDetails = asyncHandler(async (req, res, next) => {
 
     if (username) fiedToUpdate.username = username.toLowerCase();
     if (email) fiedToUpdate.email = email.toLowerCase();
-    if (password) fiedToUpdate.password = password;
+    if (password){
+        //hash password
+        const salt = await bcrypt.genSalt(10);
+        fiedToUpdate.password = await bcrypt.hash(password, salt);  
+    } 
     if (profilePicture) fiedToUpdate.profilePicture = profilePicture;
 
     const user = await User.findByIdAndUpdate(req.params.userId, fiedToUpdate, {

@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: false
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
  }, {
   timestamps: {
     currentTime: () => new Date(new Date().getTime() + (7 * 60 * 60 * 1000)), // UTC+7
@@ -46,7 +50,7 @@ UserSchema.pre('save', async function(next){
 //sign JWT and return
 UserSchema.methods.getSignedJwtToken = function(){
   return jwt.sign(
-    {id: this._id},
+    {id: this._id, isAdmin: this.isAdmin},
     process.env.JWT_SECRET,
     {expiresIn: process.env.JWT_EXPIRE}
 
